@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
 
     apt-get -qqy install python3 python3-pip
     sudo pip3 install --upgrade pip
+    sudo pip3 install --upgrade pyasn1
     sudo pip3 install flask packaging oauth2client redis passlib flask-httpauth
     sudo pip3 install sqlalchemy flask-sqlalchemy psycopg2-binary bleach requests
     sudo pip3 install -U pytest

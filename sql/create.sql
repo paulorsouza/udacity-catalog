@@ -3,5 +3,6 @@ create table users (
     provider varchar(40) not null,
     inserted_at timestamp not null default now(),
     id serial primary key,
-    UNIQUE(email)
+    picture varchar(100),
+    UNIQUE(email, provider)
 );
