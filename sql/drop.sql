@@ -1,1 +1,1 @@
-DROP TABLE if exists provider_user CASCADE;
+DROP TABLE if exists user_profile CASCADE;

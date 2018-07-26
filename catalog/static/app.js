@@ -1,10 +1,10 @@
 if (!window.CURRENT_USER) {
   (function() {
-    function login(provider, authCode) {
+    function login(authCode) {
       console.log(authCode);
       $.ajax({
         type: 'POST',
-        url: '/oauth/'+provider,
+        url: '/g-plus-auth',
         processData: false,
         data: JSON.stringify({ auth_code: authCode }),
         contentType: "application/json; charset=utf-8",
@@ -19,10 +19,8 @@ if (!window.CURRENT_USER) {
           }
         },
         error: function(err) {
+          /* TODO implement flash message */
           console.log(err);
-          $("#result").html(
-            "Failed to make a server-side call. Check your configuration and console."
-          );
         }
       });
     };
@@ -38,51 +36,17 @@ if (!window.CURRENT_USER) {
     });
 
     function errorTest(e) {
+      /* TODO implement flash message */
       console.log(e);
     }
 
     function googleSignInCallback(authResult) {
-      console.log(authResult);
-      console.log(authResult['code']);
       if (authResult['code']) {
-        login('google', authResult['code'])
+        login(authResult['code'])
       } else {
-        $("#result").html(
-          "Failed to login."
-        );
+        /* TODO implement flash message */
+        console.log("Failed");
       }
     }
-
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: "2153782074868460",
-        cookie: true,
-        xfbml: true,
-        version: "v3.0"
-      });
-    };
-
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
-
-
-    $('#facebook-login').click(function() {
-      FB.login(function(response) {
-        if (response.status === 'connected') {
-          var accessToken = response.authResponse.accessToken;
-          login('facebook', accessToken)
-        } else {
-          $("#result").html(
-            "Failed to login."
-          );
-        }
-      }, {scope: 'public_profile,email'});
-    });
   })();
 }
