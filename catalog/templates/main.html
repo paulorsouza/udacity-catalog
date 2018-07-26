@@ -20,13 +20,20 @@
           <span class="mdl-layout-title">Udacity Catalog</span>
           <div class="mdl-layout-spacer"></div>
           <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a id="google-login" class="mdl-navigation__link">
-              <i class="fab fa-google-plus-g"></i>
-              Sign in
-            </a>
+            {% if session.get("email") %}
+              <div class="user">
+                <img class="user__picture" src="{{ session['picture'] }}" alt="Picture"></img>
+                <span class="user__name">{{ session.get('name') }},</span>
+                <a class="user__logout">
+                  Logout
+                </a>
+              </div>
+            {% else %}
+              <a id="google-login" class="mdl-navigation__link">
+                <i class="fab fa-google-plus-g"></i>
+                Sign in
+              </a>
+            {% endif %}
           </nav>
         </div>
       </header>
@@ -40,6 +47,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-</body>
-
+  </body>
 </html>

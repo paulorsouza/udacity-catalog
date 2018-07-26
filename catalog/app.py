@@ -66,13 +66,13 @@ def login():
     user = session.query(User).filter_by(email=email).first()
     if not user:
         user = User(
-            name =name,
+            name = name,
             picture = picture, 
             email = email, )
         session.add(user)
         session.commit()
 
-    login_session['username'] = name
+    login_session['name'] = name
     login_session['picture'] = picture
     login_session['email'] = email
     login_session['user_id'] = user.id

@@ -1,3 +1,30 @@
 #google-login {
   cursor: pointer;
 }
+
+.fab.fa-google-plus-g::before {
+  color: orangered;
+}
+
+.user {
+  display: inline-flex;
+}
+
+.user__name {
+  line-height: 64px;
+  font-weight: 600;
+}
+
+.user__logout {
+  line-height: 64px;
+  cursor: pointer;
+  padding: 0 8px;
+  color: white;
+}
+
+.user__picture {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 50%;
+}
