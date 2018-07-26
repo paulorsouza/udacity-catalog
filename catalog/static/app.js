@@ -1,11 +1,12 @@
 if (!window.CURRENT_USER) {
   (function() {
-    function login(provider, token) {
+    function login(provider, authCode) {
+      console.log(authCode);
       $.ajax({
         type: 'POST',
-        url: '/login/'+provider,
+        url: '/oauth/'+provider,
         processData: false,
-        data: JSON.stringify({ token: token }),
+        data: JSON.stringify({ auth_code: authCode }),
         contentType: "application/json; charset=utf-8",
         success: function(result, statusText, xhr) {
           if (parseInt(xhr.status / 100) === 2) {
@@ -28,16 +29,21 @@ if (!window.CURRENT_USER) {
 
     gapi.load('auth2', function() {
       var auth2 = gapi.auth2.init({
-        scope: 'openid email',
         client_id: '363268690228-pfarn56i8a4oouv0sp6fip95cjll1p97.apps.googleusercontent.com'
       });
 
       $('#google-login').click(function() {
-        auth2.grantOfflineAccess().then(googleSignInCallback);
+        auth2.grantOfflineAccess().then(googleSignInCallback).catch(errorTest);
       });
     });
 
+    function errorTest(e) {
+      console.log(e);
+    }
+
     function googleSignInCallback(authResult) {
+      console.log(authResult);
+      console.log(authResult['code']);
       if (authResult['code']) {
         login('google', authResult['code'])
       } else {

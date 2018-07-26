@@ -33,6 +33,7 @@ def index():
 
 @app.route('/oauth/<provider>', methods = ['POST'])
 def login(provider):
+    print('teste')
     auth_code = request.json.get('auth_code')
     if provider == 'google':
         try:
@@ -45,9 +46,9 @@ def login(provider):
             return response
             
         access_token = credentials.access_token
-        url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+        url = ('https://www.googleapis.com/oauth2/v1/userinfo?access_token=%s&alt=json' % access_token)
         h = httplib2.Http()
-        result = json.loads(h.request(url, 'GET')[1])
+        result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
 		
         if result.get('error') is not None:
             response = make_response(json.dumps(result.get('error')), 500)
@@ -63,15 +64,21 @@ def login(provider):
         picture = data['picture']
         email = data['email']
 
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email, provider=provider).first()
         if not user:
-            user = User(picture = picture, email = email, provider=provider)
+            user = User(
+                name = name,
+                picture = picture, 
+                email = email, 
+                provider = provider)
             session.add(user)
             session.commit()
 
-        token = user.generate_auth_token(600)
+        session_user = dict(provider=provider,
+                            access_token=access_token,
+                            user_data=result)    
 
-        return jsonify({'token': token.decode('ascii')})
+        return ('', 204)
     else:
         return make_response(json.dumps('Failed to upgrade the authorization code.'), 401)
 

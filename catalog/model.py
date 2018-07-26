@@ -9,11 +9,12 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'provider_user'
     id = Column(Integer, primary_key=True)
     picture = Column(String)
     email = Column(String)
-    provider = Column(String(80))
+    name = Column(String) 
+    provider = Column(String)
     inserted_at = Column(DateTime, default=datetime.now)
 
 
