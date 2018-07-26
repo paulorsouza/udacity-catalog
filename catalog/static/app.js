@@ -52,5 +52,37 @@ if (!window.CURRENT_USER) {
         );
       }
     }
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: "2153782074868460",
+        cookie: true,
+        xfbml: true,
+        version: "v3.0"
+      });
+    };
+
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
+
+
+    $('#facebook-login').click(function() {
+      FB.login(function(response) {
+        if (response.status === 'connected') {
+          var accessToken = response.authResponse.accessToken;
+          login('facebook', accessToken)
+        } else {
+          $("#result").html(
+            "Failed to login."
+          );
+        }
+      }, {scope: 'public_profile,email'});
+    });
   })();
 }
