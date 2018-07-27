@@ -32,9 +32,9 @@ class PetType(Base):
     created_at = Column(DateTime, default=datetime.now)
     edited_at = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user_profile.id'))
-    user = relationship('User')
+    user = relationship(User)
     family_id = Column(Integer, ForeignKey('pet_family.id'))
-    family = relationship(PetFamily, back_populates='pet_type')
+    family = relationship(PetFamily)
 
 
 engine = create_engine('postgresql:///catalog')

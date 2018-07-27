@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from model import Base, User
 from flask import Flask, jsonify, request, url_for, abort, g, render_template
 from sqlalchemy.ext.declarative import declarative_base
@@ -13,6 +14,7 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
 from flask import make_response
+from flask import Flask, render_template
 import requests
 
 auth = HTTPBasicAuth()
@@ -24,9 +26,6 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 app = Flask(__name__)
 
-
-from flask import Flask, render_template
-app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -68,7 +67,7 @@ def login():
         user = User(
             name = name,
             picture = picture, 
-            email = email, )
+            email = email)
         session.add(user)
         session.commit()
 
