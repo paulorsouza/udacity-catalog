@@ -29,19 +29,32 @@
   border-radius: 50%;
 }
 
-.pet-family-container {
+.home-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin: 10px;
+  grid-column-gap: 15px;
+}
+
+.new-pets__title {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+ 
+.pet-family__container {
   display: grid;
   grid-template-columns: 50% 50%;
   grid-gap: 10px;
 }
 
-.pet-family-card.mdl-card {
+.pet-family__card.mdl-card {
   width: 100%;
 }
-.pet-family-card > .mdl-card__title {
+.pet-family__card > .mdl-card__title {
   color: #fff;
   height: 25vh;
 }
-.pet-family-card > .mdl-card__menu {
+.pet-family__card > .mdl-card__menu {
   color: #fff;
 }
