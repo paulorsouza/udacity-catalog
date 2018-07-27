@@ -1,50 +1,36 @@
 #!/usr/bin/env python3
-from model import Base, PetFamily, PetType, User
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from model import PetFamily, PetType, User
 
 
-engine = create_engine('postgresql:///catalog')
-
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-
-user = User(name="Foo Zeen", email="foo@bar.com", picture="teste")
-session.add(user)
+user = User.get_or_create("Foo Zeen", "foo@bar.com", "teste")
 
 dog_detail = """
 The domestic dog is a member of the genus canines,
  which forms part of the wolf-like canids and is
  the most widely abundant terrestrial carnivore.
 """
-dog = PetFamily(name="Dog", picture="dog.jpg", detail=dog_detail)
-session.add(dog)
+dog = PetFamily.create("Dog", dog_detail, "dog.jpg")
 
 cat_detail = """
 Cats are similar in anatomy to the other felids,
  with a strong flexible body, quick reflexes,
  sharp retractable claws and teeth adapted to killing small prey.
 """
-cat = PetFamily(name="Cat", picture="cat.jpg", detail=cat_detail)
-session.add(cat)
+cat = PetFamily.create("Cat", cat_detail, "cat.jpg")
 
 bird_detail = """
 Birds, are a group of endothermic vertebrates,
  characterised by feathers, toothless beaked jaws,
  the laying of hard-shelled eggs.
 """
-bird = PetFamily(name="Bird", picture="bird.jpg", detail=bird_detail)
-session.add(bird)
+bird = PetFamily.create("Bird", bird_detail, "bird.jpg")
 
 rabbit_detail = """
 Rabbits are small mammals in the family Leporidae
  of the order Lagomorpha. Oryctolagus cuniculus includes
  the European rabbit species and its descendants.
 """
-rabbit = PetFamily(name="Rabbit", picture="rabbit.jpg", detail=rabbit_detail)
-session.add(rabbit)
+rabbit = PetFamily.create("Rabbit", rabbit_detail, "rabbit.png")
 
 foobar_detail = """
 The terms foobar (/ˈfuːbɑːr/), or foo and others
@@ -56,19 +42,10 @@ The terms foobar (/ˈfuːbɑːr/), or foo and others
  and serve only to demonstrate a concept.
 """
 
-foodog = PetType(user=user, name="Foo Dog", detail=foobar_detail,
-                 family=dog)
-foocat = PetType(user=user, name="Foo Cat", detail=foobar_detail,
-                 family=cat)
-foobird = PetType(user=user, name="Foo Bird", detail=foobar_detail,
-                  family=bird)
-foorabbit = PetType(user=user, name="Foo Rabbit", detail=foobar_detail,
-                    family=rabbit)
-
-session.add(foodog)
-session.add(foocat)
-session.add(foobird)
-session.add(foorabbit)
+PetType.create("Foo Dog", foobar_detail, user.id, dog.id)
+PetType.create("Foo Cat", foobar_detail, user.id, cat.id)
+PetType.create("Foo Bird", foobar_detail, user.id, bird.id)
+PetType.create("Foo Rabbit", foobar_detail, user.id, rabbit.id)
 
 types = {"Cat": cat, "Dog": dog, "Bird": bird, "Rabbit": rabbit}
 generic_names = ["Thunder", "Lion", "Domestic", "Titan", "Hunter", "Donnie"]
@@ -76,9 +53,4 @@ generic_names = ["Thunder", "Lion", "Domestic", "Titan", "Hunter", "Donnie"]
 for t in types:
     for name in generic_names:
         name = "%s %s" % (name, t)
-        pet = PetType(user=user, name=name, detail=foobar_detail,
-                      family=types[t])
-        session.add(pet)
-
-
-session.commit()
+        PetType.create(name, foobar_detail, user.id, types[t].id)

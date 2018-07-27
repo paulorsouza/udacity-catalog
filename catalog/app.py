@@ -6,24 +6,15 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 from definitions import GOOGLE_SECRET
 from flask import session as login_session
-
+from flask import make_response
 from flask_httpauth import HTTPBasicAuth
-import json
-
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
+import json
 import httplib2
-from flask import make_response
-from flask import Flask, render_template
 import requests
 
 auth = HTTPBasicAuth()
-
-engine = create_engine('postgresql:///catalog')
-
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
 app = Flask(__name__)
 
 
@@ -62,14 +53,7 @@ def login():
     picture = data['picture']
     email = data['email']
 
-    user = session.query(User).filter_by(email=email).first()
-    if not user:
-        user = User(
-            name = name,
-            picture = picture, 
-            email = email)
-        session.add(user)
-        session.commit()
+    user = User.get_or_create(name, email, picture)
 
     login_session['name'] = name
     login_session['picture'] = picture

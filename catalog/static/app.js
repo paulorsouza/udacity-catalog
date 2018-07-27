@@ -1,6 +1,5 @@
 (function() {
   function login(authCode) {
-    console.log(authCode);
     $.ajax({
       type: 'POST',
       url: '/g-plus-auth',

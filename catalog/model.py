@@ -1,12 +1,16 @@
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column,Integer,String,DateTime,ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy import desc
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
+
 
 Base = declarative_base()
-
+engine = create_engine('postgresql:///catalog')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 class User(Base):
     __tablename__ = 'user_profile'
@@ -16,6 +20,20 @@ class User(Base):
     name = Column(String) 
     created_at = Column(DateTime, default=datetime.now)
 
+    @classmethod
+    def get_or_create(cls, name, email, picture):
+        user = session.query(User).filter_by(email=email).first()
+        if not user:
+            user = User(
+                name = name,
+                picture = picture, 
+                email = email)
+            session.add(user)
+            session.commit()
+
+        return user
+
+
 class PetFamily(Base):
     __tablename__ = 'pet_family'
     id = Column(Integer, primary_key=True)
@@ -23,6 +41,15 @@ class PetFamily(Base):
     detail = Column(String)
     picture = Column(String)
     created_at = Column(DateTime, default=datetime.now)
+
+    @classmethod
+    def create(cls, name, detail, picture):
+        family = PetFamily(name=name,
+                           detail=detail, 
+                           picture=picture)
+        session.add(family)
+        session.commit()
+        return family
 
 class PetType(Base):
     __tablename__ = 'pet_type'
@@ -35,10 +62,14 @@ class PetType(Base):
     user = relationship(User)
     family_id = Column(Integer, ForeignKey('pet_family.id'))
     family = relationship(PetFamily)
-
-
-engine = create_engine('postgresql:///catalog')
  
+    @classmethod
+    def create(cls, name, detail, user_id, family_id):
+        pet_type = PetType(name=name,
+                           detail=detail,
+                           user_id=user_id, 
+                           family_id=family_id)
+        session.add(pet_type)
+        session.commit()
+        return pet_type
 
-Base.metadata.create_all(engine)
-    
