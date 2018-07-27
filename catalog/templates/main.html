@@ -9,7 +9,10 @@
     href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
     integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" 
     crossorigin="anonymous">
-  <title>Udacity Catalog</title>
+  <script>
+    window.CURRENT_USER = "{{ session['email'] if session.get('email') else '' }}";
+  </script>  
+  <title>Udacity Pet Catalog</title>
 </head>
 
 <body>
@@ -23,8 +26,8 @@
             {% if session.get("email") %}
               <div class="user">
                 <img class="user__picture" src="{{ session['picture'] }}" alt="Picture"></img>
-                <span class="user__name">{{ session.get('name') }},</span>
-                <a class="user__logout">
+                <span class="user__name">{{ session['name'] }},</span>
+                <a class="user__logout" href="/gdisconnect">
                   Logout
                 </a>
               </div>
