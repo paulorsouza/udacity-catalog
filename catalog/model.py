@@ -14,7 +14,15 @@ class User(Base):
     picture = Column(String)
     email = Column(String)
     name = Column(String) 
-    inserted_at = Column(DateTime, default=datetime.now)
+    created_at = Column(DateTime, default=datetime.now)
+
+class Family(Base):
+    __tablename__ = 'pet_family'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    detail = Column(String)
+    picture = Column(String)
+    created_at = Column(DateTime, default=datetime.now)
 
 
 engine = create_engine('postgresql:///catalog')
