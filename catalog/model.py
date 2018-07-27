@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column,Integer,String,DateTime
+from sqlalchemy import Column,Integer,String,DateTime,ForeignKey
 from sqlalchemy import desc
 from sqlalchemy.orm import relationship
 
@@ -16,7 +16,7 @@ class User(Base):
     name = Column(String) 
     created_at = Column(DateTime, default=datetime.now)
 
-class Family(Base):
+class PetFamily(Base):
     __tablename__ = 'pet_family'
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -24,7 +24,7 @@ class Family(Base):
     picture = Column(String)
     created_at = Column(DateTime, default=datetime.now)
 
-class Type(Base):
+class PetType(Base):
     __tablename__ = 'pet_type'
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -33,8 +33,8 @@ class Type(Base):
     edited_at = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user_profile.id'))
     user = relationship('User')
-    family_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    category = relationship(Category, back_populates='items')
+    family_id = Column(Integer, ForeignKey('pet_family.id'))
+    family = relationship(PetFamily, back_populates='pet_type')
 
 
 engine = create_engine('postgresql:///catalog')
