@@ -96,6 +96,15 @@ def get_google_user_info(access_token):
                 picture=data['picture'],
                 email=data['email'])
 
+@app.route('/family/<int:id>/type')
+def pet_types(id):
+    pets = PetType.list_by_family_id(id)
+    if not pets:
+        return ('', 404)
+    
+    family_name = pets[0].family.name
+    return render_template('petTypes.html', pets=pets, family_name=family_name)                
+
 if __name__ == '__main__':
     app.secret_key = 'nobody will try this'
     app.debug = True

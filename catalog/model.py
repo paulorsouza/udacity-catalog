@@ -74,6 +74,12 @@ class PetType(Base):
         ).limit(10)
 
     @classmethod
+    def list_by_family_id(cls, id):
+        return session.query(PetType).filter_by(
+            family_id=id
+        ).all()
+        
+    @classmethod
     def create(cls, name, detail, user_id, family_id):
         pet_type = PetType(name=name,
                            detail=detail,

@@ -50,14 +50,20 @@
 						{{ family.detail }}
 					</div>
 					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-							View
+						<a
+							class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+							href="{{url_for('pet_types', id=family.id ) }}"
+						>
+							View Types
 						</a>
 					</div>
 					<div class="mdl-card__menu">
-						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-							<i class="material-icons">share</i>
-						</button>
+						<a
+							class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+							href="{{url_for('pet_types', id=family.id ) }}"
+						>
+							<i class="material-icons">search</i>
+						</a>
 					</div>
 				</div>
 			{% endfor %}

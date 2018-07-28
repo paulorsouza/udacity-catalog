@@ -32,7 +32,7 @@
 .home-container {
   display: grid;
   grid-template-columns: auto auto;
-  margin: 10px;
+  margin: 10px 30px;
   grid-column-gap: 15px;
 }
 
@@ -51,10 +51,18 @@
 .pet-family__card.mdl-card {
   width: 100%;
 }
+
 .pet-family__card > .mdl-card__title {
-  color: #fff;
+  color: black;
   height: 25vh;
+  font-weight: 700;
 }
+
 .pet-family__card > .mdl-card__menu {
-  color: #fff;
+  color: black;
+}
+
+.pet-types__container, .pet-types__title {
+  display: flex;
+  justify-content: center;
 }

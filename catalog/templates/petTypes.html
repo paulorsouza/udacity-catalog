@@ -1,0 +1,46 @@
+{% extends "main.html" %}
+{% block content %}
+	<h1 class="pet-types__title">{{ family_name }} Types</h1>
+  <div class="pet-types__container">
+		<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+			<thead>
+				<tr>
+					<th class="mdl-data-table__cell--non-numeric">Pet</th>
+					<th class="mdl-data-table__cell--non-numeric">Created At</th>
+					<th class="mdl-data-table__cell--non-numeric">Edited At</th>
+					<th class="mdl-data-table__cell--non-numeric">Owner</th>
+					<th class="mdl-data-table__cell--non-numeric"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for pet in pets %}
+					<tr>
+						<td class="mdl-data-table__cell--non-numeric">
+							{{ pet.name }}
+						</td>
+						<td class="mdl-data-table__cell--non-numeric">
+							{{ pet.created_at }}
+						</td>
+						<td class="mdl-data-table__cell--non-numeric">
+							{{ pet.edited_at }}
+						</td>
+						<td class="mdl-data-table__cell--non-numeric">
+							{{ pet.user.name }}
+						</td>
+						<td class="mdl-data-table__cell--non-numeric">
+							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+								<i class="material-icons">search</i>
+							</button>
+							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+								<i class="material-icons">create</i>
+							</button>
+							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+								<i class="material-icons">remove</i>
+							</button>
+						</td>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>	
+	</div>
+{% endblock %}
