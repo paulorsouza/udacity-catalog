@@ -31,12 +31,14 @@
 							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 								<i class="material-icons">search</i>
 							</button>
-							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-								<i class="material-icons">create</i>
-							</button>
-							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-								<i class="material-icons">remove</i>
-							</button>
+							{% if pet.user_id == session.get("user_id") %}
+								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">create</i>
+								</button>
+								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">remove</i>
+								</button>
+							{% endif %}		
 						</td>
 					</tr>
 				{% endfor %}	

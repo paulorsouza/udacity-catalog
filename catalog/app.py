@@ -55,11 +55,12 @@ def gconnect():
 
     # Get user info
     info = get_google_user_info(credentials.access_token)
-    user = User.get_or_create(info.name, info.email, info.picture)
+    user = User.get_or_create(info['name'], info['email'], info['picture'])
 
-    login_session['name'] = info.name
-    login_session['picture'] = info.picture
-    login_session['email'] = info.email
+    #Set session variables
+    login_session['name'] = info['name']
+    login_session['picture'] = info['picture']
+    login_session['email'] = info['email']
     login_session['user_id'] = user.id
     login_session['access_token'] = credentials.access_token
     return ('', 204)
