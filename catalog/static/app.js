@@ -47,3 +47,9 @@ if (!window.CURRENT_USER) {
     }
   })();
 }
+
+$(function() {
+  setTimeout(function() {
+    $('.flash-message').remove();
+  }, 5000);
+});

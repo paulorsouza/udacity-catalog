@@ -66,3 +66,24 @@
   display: flex;
   justify-content: center;
 }
+
+.pet-type-form {
+  display: flex;
+  justify-content: center;
+}
+
+.mdl-textfield__error {
+  visibility: visible !important;
+}
+
+.flash-container {
+  position: absolute;
+  right: 5px;
+  top: 64px;
+}
+
+.flash-message__text {
+  padding: 5px;
+  background-color: red;
+  border: 1px solid black;
+}

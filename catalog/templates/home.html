@@ -58,6 +58,14 @@
 						>
 							View Types
 						</a>
+						{% if session.get("email") %}
+							<a
+								class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+								href="{{url_for('petTypeForm', f_id=family.id ) }}"
+							>
+								New Type
+							</a>
+						{% endif %}
 					</div>
 					<div class="mdl-card__menu">
 						<a

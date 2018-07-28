@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy import desc
 from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.exc import IntegrityError
 
 
 Base = declarative_base()
@@ -85,7 +86,11 @@ class PetType(Base):
                            detail=detail,
                            user_id=user_id, 
                            family_id=family_id)
-        session.add(pet_type)
-        session.commit()
-        return pet_type
-
+        try:                   
+            session.add(pet_type)
+            session.commit()
+            return pet_type
+        except IntegrityError:
+            session.rollback()
+            raise Exception("This pet has already been registered") 
+        

@@ -50,6 +50,19 @@
           {% endblock %}
 				</div>
       </main>
+      <div class="flash-container">
+		    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-message">
+            {% for message in messages %}
+              <div class="flash-message__text">
+                <strong> {{ message }} </strong>
+              </div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
     </div>
 
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>

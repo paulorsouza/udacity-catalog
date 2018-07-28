@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% block content %}
+	<div class="pet-type-form">
+		{% if pet and pet.id %}
+			<form>
+		{% else %}
+			<form action="{{url_for('add_pet_type', f_id=f_id) }}" method="POST">
+		{% endif %}
+			<div>	
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input
+						class="mdl-textfield__input" 
+						type="text" 
+						id="name"
+						name="name"
+						aria-describedby="name-help"
+						value="{{ pet.name if pet else '' }}"
+					/>
+					<label class="mdl-textfield__label" for="name">Name...</label>
+					{% if errors and errors.get("name") %}
+						<span class="mdl-textfield__error">
+								{{ errors["name"] }}
+						</span>
+					{% endif %}
+				</div>
+			</div>
+			<div class="pet-type-form__control">
+				<div class="mdl-textfield mdl-js-textfield">
+					<textarea 
+						class="mdl-textfield__input"
+						type="text"
+						rows="4" 
+						id="detail"
+						name="detail"
+						aria-describedby="detail-help"
+						value="{{ pet.detail if pet else '' }}"
+					></textarea>
+					<label class="mdl-textfield__label" for="detail">Detail...</label>
+					{% if errors and errors.get("detail") %}
+						<span class="mdl-textfield__error">
+								{{ errors["detail"] }}
+						</span>
+					{% endif %}
+				</div>	
+			</div>
+			<div>
+				<a class="mdl-button mdl-js-button" href="/">
+					Cancel
+				</a>
+				<button class="mdl-button mdl-js-button mdl-button--raised" type="submit">
+					Save
+				</button>
+			</div>	
+		</form>
+	</div>
+
+{% endblock %}
