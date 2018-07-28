@@ -1,7 +1,66 @@
 {% extends "main.html" %}
 {% block content %}
   <div class="home-container">
-			{% include "newPets.html" %}
-			{% include "petFamily.html" %}
+		<div class="new-pets__container">
+			<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+				<thead>
+					<tr>
+						<th class="mdl-data-table__cell--non-numeric">New Pet</th>
+						<th class="mdl-data-table__cell--non-numeric">Family</th>
+						<th class="mdl-data-table__cell--non-numeric"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for new in news %}
+						<tr>
+							<td class="mdl-data-table__cell--non-numeric">
+								{{ new.name }}
+							</td>
+							<td class="mdl-data-table__cell--non-numeric">
+								{{ new.family.name }}
+							</td>
+							<td class="mdl-data-table__cell--non-numeric">
+								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">search</i>
+								</button>
+								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">create</i>
+								</button>
+								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">remove</i>
+								</button>
+							</td>
+						</tr>
+					{% endfor %}	
+				</tbody>
+			</table>
+		</div>
+		<div class="pet-family__container">
+			{% for family in families%}
+				<div class="pet-family__card mdl-card mdl-shadow--2dp">
+					<div
+						class="mdl-card__title"
+						style="background: url({{ url_for('static', filename='assets/'+ family.picture) }}) center / contain;"
+					>
+						<h2 class="mdl-card__title-text">
+							{{ family.name }}
+						</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						{{ family.detail }}
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+							View
+						</a>
+					</div>
+					<div class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+							<i class="material-icons">share</i>
+						</button>
+					</div>
+				</div>
+			{% endfor %}
+		</div>		
 	</div>
 {% endblock %}

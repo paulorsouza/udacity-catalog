@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from model import Base, User
+from model import Base, User, PetType, PetFamily
 from flask import Flask, jsonify, request, url_for, abort, g, render_template
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
@@ -20,7 +20,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return render_template('home.html')
+    news = PetType.news()
+    families = PetFamily.all()
+    return render_template('home.html',
+                           news=news,
+                           families=families)
 
 @app.route('/gconnect', methods = ['POST'])
 def gconnect():

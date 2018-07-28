@@ -51,6 +51,10 @@ class PetFamily(Base):
         session.commit()
         return family
 
+    @classmethod
+    def all(cls):
+        return session.query(PetFamily).all()
+
 class PetType(Base):
     __tablename__ = 'pet_type'
     id = Column(Integer, primary_key=True)
@@ -62,7 +66,13 @@ class PetType(Base):
     user = relationship(User)
     family_id = Column(Integer, ForeignKey('pet_family.id'))
     family = relationship(PetFamily)
- 
+    
+    @classmethod
+    def news(cls):
+        return session.query(PetType).order_by(
+            desc(PetType.created_at)
+        ).limit(10)
+
     @classmethod
     def create(cls, name, detail, user_id, family_id):
         pet_type = PetType(name=name,
