@@ -1,4 +1,18 @@
 {% extends "main.html" %}
+{% block drawer %}
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
+    <nav class="mdl-navigation">
+      {% for family in families %}
+        <a
+          class="mdl-navigation__link" 
+          href="{{url_for('pet_types', id=family.id ) }}"
+        >{{ family.name }}
+        </a>
+      {% endfor %}  
+    </nav>
+  </div>
+{% endblock %}
 {% block content %}
   <div class="home-container">
 		<div class="new-pets__container">
@@ -35,7 +49,7 @@
 			</table>
 		</div>
 		<div class="pet-family__container">
-			{% for family in families%}
+			{% for family in families %}
 				<div class="pet-family__card mdl-card mdl-shadow--2dp">
 					<div
 						class="mdl-card__title"
