@@ -27,8 +27,53 @@ def index():
                            families=families)
 
 @app.route('/family/<int:f_id>/type/form')
-def petTypeForm(f_id):
+def pet_type_form(f_id):
     return render_template('petTypeForm.html', f_id=f_id) 
+
+@app.route('/type/<int:id>/edit-form')
+def pet_type_edit_form(id):
+    pet = PetType.get(id)
+    if not pet:
+        return ('', 404)
+
+    print(pet)
+    print(pet.detail)
+
+    return render_template('petTypeForm.html', pet=pet)
+
+@app.route('/type/<int:id>/edit', methods=['POST'])
+def edit_pet_type(id):
+    pet = PetType.get(id)
+    if not pet:
+        return ('', 404)
+
+    # Only owner can edit pet type    
+    if pet.user_id != login_session['user_id']:
+        flash('You should not be here.')
+        return redirect('/') 
+        
+    data = request.form
+
+    # Validate required fields
+    errors = {}
+    if not data.get('name'):
+        errors['name'] = 'Name is required'
+    if not data.get('detail'):
+        errors['detail'] = 'Detail is required'
+
+    if len(errors.keys()):
+        return (render_template('petTypeForm.html', 
+                                errors=errors, 
+                                pet=pet), 400)
+
+    # Save pet type in db                                 
+    try:
+        PetType.update(pet, data['name'], data['detail'])
+        return redirect('/')
+    except Exception as e:
+        flash(e)
+        return (render_template('petTypeForm.html',
+                                pet=pet), 422)                            
 
 @app.route('/family/<int:f_id>/type/add', methods=['POST'])
 def add_pet_type(f_id):

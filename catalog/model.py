@@ -79,6 +79,27 @@ class PetType(Base):
         return session.query(PetType).filter_by(
             family_id=id
         ).all()
+
+    @classmethod
+    def get(cls, id):
+        return session.query(PetType).get(id)
+
+    @classmethod
+    def update(cls, current_pet, name, detail):
+        current_pet.name = name
+        current_pet.detail = detail
+        current_pet.edited_at = datetime.now()
+
+        try:                   
+            session.add(current_pet)
+            session.commit()
+            return current_pet
+        except IntegrityError:
+            session.rollback()
+            raise Exception("This pet has already been registered")
+        except:    
+            session.rollback()
+            raise Exception("Db Erro")
         
     @classmethod
     def create(cls, name, detail, user_id, family_id):
@@ -93,4 +114,8 @@ class PetType(Base):
         except IntegrityError:
             session.rollback()
             raise Exception("This pet has already been registered") 
+        except:    
+            session.rollback()
+            raise Exception("Db Erro")
+
         
