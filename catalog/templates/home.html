@@ -20,9 +20,6 @@
 								{{ new.family.name }}
 							</td>
 							<td class="mdl-data-table__cell--non-numeric">
-								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-									<i class="material-icons">search</i>
-								</button>
 								{% if new.user_id == session.get("user_id") %}
 									<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 										<i class="material-icons">create</i>

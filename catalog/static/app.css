@@ -80,10 +80,16 @@
   position: absolute;
   right: 5px;
   top: 64px;
+  z-index: 9999;
 }
 
 .flash-message__text {
   padding: 5px;
   background-color: red;
   border: 1px solid black;
+}
+
+.mdl-data-table__cell--non-numeric > 
+.mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect {
+  height: 22px;
 }

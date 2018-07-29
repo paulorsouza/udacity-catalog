@@ -1,3 +1,19 @@
+function addFlashMessage(msg) {
+  $(".flash-container").append(
+    '<div class="flash-message">' +
+      '<div class="flash-message__text">' +
+        '<strong>' + msg + '</strong>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+$(function() {
+  setTimeout(function() {
+    $('.flash-message').remove();
+  }, 5000);
+});
+
 if (!window.CURRENT_USER) {
   (function() {
     function login(authCode) {
@@ -11,13 +27,11 @@ if (!window.CURRENT_USER) {
           if (parseInt(xhr.status / 100) === 2) {
             window.location.href = "/";
           } else {
-            console.error(statusText);
-              /* TODO implement flash message */
+            addFlashMessage(statusText);
           }
         },
         error: function(err) {
-          /* TODO implement flash message */
-          console.log(err);
+          addFlashMessage(err);
         }
       });
     };
@@ -33,23 +47,16 @@ if (!window.CURRENT_USER) {
     });
 
     function errorTest(e) {
-      /* TODO implement flash message */
-      console.log(e);
+      addFlashMessage(e);
     }
 
     function googleSignInCallback(authResult) {
       if (authResult['code']) {
+        addFlashMessage('teste');
         login(authResult['code'])
       } else {
-        /* TODO implement flash message */
-        console.log("Failed");
+        addFlashMessage('Failed');
       }
     }
   })();
 }
-
-$(function() {
-  setTimeout(function() {
-    $('.flash-message').remove();
-  }, 5000);
-});
