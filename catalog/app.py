@@ -18,6 +18,8 @@ auth = HTTPBasicAuth()
 app = Flask(__name__)
 
 
+# GET PAGES ENDPOINTS
+
 @app.route('/')
 def index():
     news = PetType.news()
@@ -37,6 +39,17 @@ def pet_type_edit_form(id):
         return ('', 404)
         
     return render_template('petTypeForm.html', pet=pet)
+
+@app.route('/family/<int:id>/type')
+def pet_types(id):
+    pets = PetType.list_by_family_id(id)
+    if not pets:
+        return ('', 404)
+    
+    family_name = pets[0].family.name
+    return render_template('petTypes.html', pets=pets, family_name=family_name)                               
+
+# EDIT PAGES ENDPOINTS
 
 # Sorry for use this GET, but im very late on this curse
 @app.route('/type/<int:id>/delete', methods=['GET'])
@@ -117,14 +130,23 @@ def add_pet_type(f_id):
                                 pet=data, 
                                 f_id=f_id), 422)
 
-@app.route('/family/<int:id>/type')
-def pet_types(id):
-    pets = PetType.list_by_family_id(id)
-    if not pets:
-        return ('', 404)
-    
-    family_name = pets[0].family.name
-    return render_template('petTypes.html', pets=pets, family_name=family_name)                               
+# REST ENDPOINTS
+@app.route('/family/data.json')
+def list_family():
+    family_list = [f.serialize for f in PetFamily.all()]
+    return jsonify(family_list)
+
+@app.route('/family/<int:f_id>/type/data.json')
+def list_type(f_id):
+    pets = PetType.list_by_family_id(f_id)
+    pet_list = [p.serialize for p in pets]
+    return jsonify(pet_list)
+
+@app.route('/type/<int:id>/data.json')
+def get_type(id):
+    return jsonify(PetType.get(id).serialize)    
+
+# GOOGLE OAUTH
 
 @app.route('/gconnect', methods = ['POST'])
 def gconnect():
@@ -206,6 +228,7 @@ def get_google_user_info(access_token):
     return dict(name=data['name'],
                 picture=data['picture'],
                 email=data['email'])
+
 
 if __name__ == '__main__':
     app.secret_key = 'nobody will try this'

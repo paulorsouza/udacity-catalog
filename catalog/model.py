@@ -56,6 +56,16 @@ class PetFamily(Base):
     def all(cls):
         return session.query(PetFamily).all()
 
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'detail': self.detail,
+            'created_at': self.created_at
+        }    
+
 class PetType(Base):
     __tablename__ = 'pet_type'
     id = Column(Integer, primary_key=True)
@@ -67,6 +77,20 @@ class PetType(Base):
     user = relationship(User)
     family_id = Column(Integer, ForeignKey('pet_family.id'))
     family = relationship(PetFamily)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'detail': self.detail,
+            'created_at': self.created_at,
+            'edited_at': self.edited_at,
+            'user_name': self.user.name,
+            'family_id': self.family_id,
+            'family_name': self.family.name
+        } 
     
     @classmethod
     def news(cls):
