@@ -13,12 +13,13 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 class User(Base):
     __tablename__ = 'user_profile'
     id = Column(Integer, primary_key=True)
     picture = Column(String)
     email = Column(String)
-    name = Column(String) 
+    name = Column(String)
     created_at = Column(DateTime, default=datetime.now)
 
     @classmethod
@@ -26,9 +27,9 @@ class User(Base):
         user = session.query(User).filter_by(email=email).first()
         if not user:
             user = User(
-                name = name,
-                picture = picture, 
-                email = email)
+                name=name,
+                picture=picture,
+                email=email)
             session.add(user)
             session.commit()
 
@@ -46,7 +47,7 @@ class PetFamily(Base):
     @classmethod
     def create(cls, name, detail, picture):
         family = PetFamily(name=name,
-                           detail=detail, 
+                           detail=detail,
                            picture=picture)
         session.add(family)
         session.commit()
@@ -64,7 +65,8 @@ class PetFamily(Base):
             'name': self.name,
             'detail': self.detail,
             'created_at': self.created_at
-        }    
+        }
+
 
 class PetType(Base):
     __tablename__ = 'pet_type'
@@ -90,8 +92,8 @@ class PetType(Base):
             'user_name': self.user.name,
             'family_id': self.family_id,
             'family_name': self.family.name
-        } 
-    
+        }
+
     @classmethod
     def news(cls):
         return session.query(PetType).order_by(
@@ -111,39 +113,37 @@ class PetType(Base):
     @classmethod
     def delete(cls, pet):
         return session.delete(pet)
-        
+
     @classmethod
     def update(cls, current_pet, name, detail):
         current_pet.name = name
         current_pet.detail = detail
         current_pet.edited_at = datetime.now()
 
-        try:                   
+        try:
             session.add(current_pet)
             session.commit()
             return current_pet
         except IntegrityError:
             session.rollback()
             raise Exception("This pet has already been registered")
-        except:    
+        except:
             session.rollback()
             raise Exception("Db Erro")
-        
+
     @classmethod
     def create(cls, name, detail, user_id, family_id):
         pet_type = PetType(name=name,
                            detail=detail,
-                           user_id=user_id, 
+                           user_id=user_id,
                            family_id=family_id)
-        try:                   
+        try:
             session.add(pet_type)
             session.commit()
             return pet_type
         except IntegrityError:
             session.rollback()
-            raise Exception("This pet has already been registered") 
-        except:    
+            raise Exception("This pet has already been registered")
+        except:
             session.rollback()
             raise Exception("Db Erro")
-
-        

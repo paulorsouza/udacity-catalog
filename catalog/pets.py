@@ -2,6 +2,11 @@
 from model import PetFamily, PetType, User
 
 
+teste = PetFamily.all()
+
+if teste:
+    exit()
+
 user = User.get_or_create("Foo Zeen", "foo@bar.com", "teste")
 
 dog_detail = """

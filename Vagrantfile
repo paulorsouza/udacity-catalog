@@ -4,7 +4,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial32"
   config.vm.synced_folder ".", "/vagrant"
-  config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5000, host: 5000, host_ip: "127.0.0.1"
 
   config.vm.provision "shell", inline: <<-SHELL
@@ -23,6 +22,8 @@ Vagrant.configure("2") do |config|
     su vagrant -c 'createdb catalog'
     su vagrant -c 'psql -d catalog -f /vagrant/sql/drop.sql'
     su vagrant -c 'psql -d catalog -f /vagrant/sql/create.sql'
+
+    python3 /vagrant/catalog/pets.py
 
     vagrantTip="[35m[1mThe shared directory is located at /vagrant\\nTo access your shared files: cd /vagrant[m"
     echo -e $vagrantTip > /etc/motd
