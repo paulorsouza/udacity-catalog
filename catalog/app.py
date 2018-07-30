@@ -35,11 +35,24 @@ def pet_type_edit_form(id):
     pet = PetType.get(id)
     if not pet:
         return ('', 404)
-
-    print(pet)
-    print(pet.detail)
-
+        
     return render_template('petTypeForm.html', pet=pet)
+
+# Sorry for use this GET, but im very late on this curse
+@app.route('/type/<int:id>/delete', methods=['GET'])
+def delete_pet_type(id):
+    pet = PetType.get(id)
+    if not pet:
+        return ('', 404)
+
+    # Only owner can edit pet type    
+    if pet.user_id != login_session['user_id']:
+        flash('You should not be here.')
+        return redirect('/')
+
+    PetType.delete(pet)
+    flash(pet.name + ' deleted!')
+    return redirect('/')
 
 @app.route('/type/<int:id>/edit', methods=['POST'])
 def edit_pet_type(id):

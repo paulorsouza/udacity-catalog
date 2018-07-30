@@ -45,9 +45,12 @@
                 >
                   <i class="material-icons">create</i>
                 </a>
-								<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+								<a
+									class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+									href="{{url_for('delete_pet_type', id=pet.id ) }}"
+								>
 									<i class="material-icons">remove</i>
-								</button>
+								</a>
 							{% endif %}		
 						</td>
 					</tr>

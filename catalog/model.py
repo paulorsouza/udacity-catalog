@@ -85,6 +85,10 @@ class PetType(Base):
         return session.query(PetType).get(id)
 
     @classmethod
+    def delete(cls, pet):
+        return session.delete(pet)
+        
+    @classmethod
     def update(cls, current_pet, name, detail):
         current_pet.name = name
         current_pet.detail = detail
