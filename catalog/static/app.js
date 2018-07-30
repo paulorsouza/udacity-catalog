@@ -52,7 +52,6 @@ if (!window.CURRENT_USER) {
 
     function googleSignInCallback(authResult) {
       if (authResult['code']) {
-        addFlashMessage('teste');
         login(authResult['code'])
       } else {
         addFlashMessage('Failed');

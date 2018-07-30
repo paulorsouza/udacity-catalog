@@ -175,10 +175,9 @@ def gconnect():
 
     # Check that the access token is valid.
     access_token = credentials.access_token
-    u = """
-    https://www.googleapis.com/oauth2/v1/userinfo?access_token=%s&alt=json
-    """
-    url = (u % access_token)
+    u = 'https://www.googleapis.com/oauth2/'
+    u2 = u + 'v1/userinfo?access_token=%s&alt=json'
+    url = (u2 % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
 

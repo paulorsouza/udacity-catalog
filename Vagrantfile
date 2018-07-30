@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     su vagrant -c 'psql -d catalog -f /vagrant/sql/drop.sql'
     su vagrant -c 'psql -d catalog -f /vagrant/sql/create.sql'
 
-    python3 /vagrant/catalog/pets.py
+    su vagrant -c 'python3 /vagrant/catalog/pets.py'
 
     vagrantTip="[35m[1mThe shared directory is located at /vagrant\\nTo access your shared files: cd /vagrant[m"
     echo -e $vagrantTip > /etc/motd
