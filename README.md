@@ -1,9 +1,5 @@
-Udacity Catalog
+Udacity Pet Catalog
 ==
-
-> Console app to list analysis in log tables
-
-# With Vagrant
 
 ## Prerequisites
 
@@ -12,7 +8,7 @@ Udacity Catalog
 ## Install
 
 ```shell
-git clone https://github.com/paulorsouza/udacity-log-analysis.git
+git clone https://github.com/paulorsouza/udacity-catalog.git
 cd udacity-log-analysis
 
 vagrant up
@@ -22,54 +18,100 @@ vagrant ssh
 ### Run
 
 ```shell
-cd /vagrant/app
-python3 analysis.py
+cd /vagrant/catalog
+python3 app.py
 ```
 
-### Run tests
+## App url
 
-```shell
-cd /vagrant/app
-pytest
+```
+http://localhost:5000
 ```
 
-# Without Vagrant
+## Rest endpoints
 
-## Prerequisites
+**List all families**
+----
+   This enpoint list all pet families.
 
-- [postgresql](https://www.postgresql.org/)
-- [python3](https://www.python.org/download/releases/3.0/)
-- [pip3](https://docs.python.org/3/installing/index.html)
+* **URL**
 
-## Install
+  /family/data.json
 
-```shell
-pip3 install --upgrade pip
-pip3 install texttable psycopg2 psycopg2-binary
-pip3 install -U pytest
-```
+* **HTTP Verb:**
+  
+  `GET`
+  
 
-## Data
+* **Sample:**
 
-[Download data](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
+  ```javascript
+     fetch("http://localhost:5000/family/data.json", {
+        method: "GET",
+        headers: {
+           "Accept": "application/json",
+        },
+     })
+  ```
 
-Unzip newsdata.zip 
+  ```shell
+    curl -X GET -H "accept: application/json" http://localhost:5000/family/data.json
+  ```
 
-```shell
-createdb news
-psql news -f newsdata.sql
-```
 
-### Run
+**List all types**
+----
+   This enpoint list all pet types by family.
 
-```shell
-cd /app
-python3 analysis.py
-```
+* **URL**
 
-### Run tests
+  /family/{family_id}/type/data.json
 
-```shell
-cd /app
-pytest
-```
+* **HTTP Verb:**
+  
+  `GET`
+  
+
+* **Sample:**
+
+  ```javascript
+     fetch("http://localhost:5000/family/1/type/data.json", {
+        method: "GET",
+        headers: {
+           "Accept": "application/json",
+        },
+     })
+  ```
+
+  ```shell
+    curl -X GET -H "accept: application/json" http://localhost:5000/family/1/type/data.json
+  ```
+
+
+**Get type**
+----
+   This enpoint list get pet type by id.
+
+* **URL**
+
+  /type/id/data.json
+
+* **HTTP Verb:**
+  
+  `GET`
+  
+
+* **Sample:**
+
+  ```javascript
+     fetch("http://localhost:5000/type/1/data.json", {
+        method: "GET",
+        headers: {
+           "Accept": "application/json",
+        },
+     })
+  ```
+
+  ```shell
+    curl -X GET -H "accept: application/json" http://localhost:5000/type/1/data.json
+  ```
