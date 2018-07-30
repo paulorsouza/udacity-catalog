@@ -9,7 +9,7 @@ Udacity Pet Catalog
 
 ```shell
 git clone https://github.com/paulorsouza/udacity-catalog.git
-cd udacity-log-analysis
+cd udacity-catalog
 
 vagrant up
 vagrant ssh
